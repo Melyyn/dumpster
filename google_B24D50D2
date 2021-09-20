@@ -1,0 +1,64 @@
+let palette = ["#4385f5", "#e94335", "#fcbc05", "#34a853"];
+
+function setup() {
+	createCanvas(1800, 1400);
+	noLoop();
+	rectMode(CENTER);
+}
+
+function draw() {
+	let off = 30;
+	drawBackground();
+	strokeWeight(1);
+	divideRect(off, off, width - off * 2, height - off * 2, 200);
+}
+
+function drawBackground() {
+	let c = 2000;
+	let w = width / c;
+	background(250);
+	
+	}
+
+function divideRect(x, y, w, h, min) {
+	let p = 0.5;
+	let col = color(random(palette));
+	if (w > min && h > min) {
+		if (w >= h) {
+			let rndw = random(1) * w;
+			divideRect(x, y, rndw, h, min);
+			divideRect(x + rndw, y, w - rndw, h, min);
+		}
+		if (w < h) {
+			let rndh = random(1) * h;
+			divideRect(x, y, w, rndh, min);
+			divideRect(x, y + rndh, w, h - rndh, min);
+		}
+	} else {
+		let hh = h / 2;
+		let hw = w / 2;
+		noFill();
+		stroke(col);
+		rect(x + hw, y + hh, w - 1, h - 1);
+		fill(col);
+		if (w < h) {
+			let size = w - 5;
+			let x1 = x + hw;
+			let y1 = y + hw;
+			let y2 = y + h - hw;
+			line(x1, y1, x1, y2);
+			noStroke();
+			rect(x1, y1 - size * 0.25, size, size * 0.5);
+			rect(x1, y2 + size * 0.25, size, size * 0.5);
+		} else {
+			let size = h - 5;
+			let x1 = x + hh;
+			let x2 = x + w - hh;
+			let y1 = y + hh;
+			line(x1, y1, x2, y1);
+			noStroke();
+			rect(x1 - size * 0.25, y1, size * 0.5, size);
+			rect(x2 + size * 0.25, y1, size * 0.5, size);
+		}
+	}
+}
